@@ -1,0 +1,42 @@
+nav {
+  width: 100%;
+  padding: 1rem;
+  z-index: 21;
+  background-image: linear-gradient(transparent 50%, rgb(255, 255, 255) 50%);
+  background-position: 0px 0px;
+  background-size: 100% 200%;
+  box-shadow: transparent 0px 0px 0px 1px;
+  transition: background-position 0.1s ease 0s, box-shadow 0.1s ease 0s;
+  background-blend-mode: hard-light;
+
+  .outer_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    .logo {
+      cursor: pointer;
+    }
+    .wallet_data {
+      display: flex;
+
+      .blockchain_network {
+        align-items: center;
+        background-color: rgb(255, 255, 255);
+        border: 2px solid rgb(255, 255, 255);
+        border-radius: 16px;
+        color: rgb(0, 0, 0);
+        cursor: pointer;
+        display: flex;
+        font-weight: 500;
+        justify-content: space-between;
+        padding: 6px 8px;
+
+        img {
+          height: 16px;
+          width: 16px;
+        }
+      }
+    }
+  }
+}
