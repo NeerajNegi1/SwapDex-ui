@@ -18,6 +18,10 @@ nav {
     width: 100%;
     .logo {
       cursor: pointer;
+      img {
+        width: 30px;
+        height: 30px;
+      }
     }
     .page_title {
       position: absolute;
@@ -26,6 +30,7 @@ nav {
     .wallet_data {
       display: flex;
       align-items: center;
+      position: relative;
 
       .blockchain_network {
         align-items: center;
@@ -100,6 +105,46 @@ nav {
         border: 1px solid rgb(247, 248, 250);
         color: rgb(0, 0, 0);
         font-weight: 500;
+      }
+      .navbar_toggle_network {
+        position: absolute;
+        z-index: 1;
+        background-color: white;
+        top: 150%;
+        width: 270px;
+        height: 270px;
+        border-radius: 10%;
+        overflow-y: scroll;
+
+        img {
+          width: 30px;
+          height: 30px;
+        }
+        ul {
+          list-style: none;
+          padding: 0px;
+          margin: 0px;
+        }
+        li {
+          display: flex;
+          align-items: center;
+          padding: 1rem;
+          cursor: pointer;
+        }
+        .selectedNetwork {
+          background-color: rgb(247, 248, 250);
+        }
+        li:hover {
+          background-color: rgb(247, 248, 250);
+        }
+        p {
+          font-size: larger;
+          margin-left: 0.5rem;
+          width: 100%;
+        }
+      }
+      .navbar_toggle_network::-webkit-scrollbar {
+        width: 0;
       }
     }
   }

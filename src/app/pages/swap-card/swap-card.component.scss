@@ -111,6 +111,34 @@
         visibility: visible;
       }
     }
+    .swap_token_arrow {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      z-index: 2;
+      left: 48.8%;
+      top: 44.5%;
+      cursor: pointer;
+      transform: rotate(90deg);
+      background: rgb(247, 248, 250);
+      border-radius: 50%;
+      border-radius: 34%;
+      border: 3px solid white;
+    }
+    .crypto_info {
+      display: flex;
+      align-items: center;
+      background-color: rgb(247, 248, 250);
+      padding: 0.3rem;
+      margin-top: 4px;
+      border-radius: 12px;
+      img {
+        margin-left: 3px;
+        margin-right: 1rem;
+        width: 20px;
+        height: 20px;
+      }
+    }
     .swapdex_btn {
       margin-top: 8px;
       background-color: rgb(253, 234, 241);
