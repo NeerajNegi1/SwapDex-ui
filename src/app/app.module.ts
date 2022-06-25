@@ -9,6 +9,7 @@ import { SwapCardComponent } from './pages/swap-card/swap-card.component';
 import { HoverBorderDirective } from './directive/hover-border.directive';
 import { environment } from 'src/environments/environment';
 import { AppStore } from './store';
+import { CryptoCoinsModalComponent } from './component/crypto-coins-modal/crypto-coins-modal.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { AppStore } from './store';
     AppComponent,
     NavbarComponent,
     SwapCardComponent,
-    HoverBorderDirective
+    HoverBorderDirective,
+    CryptoCoinsModalComponent
   ],
   imports: [
     BrowserModule,
