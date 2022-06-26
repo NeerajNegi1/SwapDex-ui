@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +11,8 @@ import { HoverBorderDirective } from './directive/hover-border.directive';
 import { environment } from 'src/environments/environment';
 import { AppStore } from './store';
 import { CryptoCoinsModalComponent } from './component/crypto-coins-modal/crypto-coins-modal.component';
-
+import { LoaderComponent } from './component/loader/loader.component';
+import { AddressConverterPipe } from './pipe/address-converter.pipe';
 
 @NgModule({
   declarations: [
@@ -18,18 +20,21 @@ import { CryptoCoinsModalComponent } from './component/crypto-coins-modal/crypto
     NavbarComponent,
     SwapCardComponent,
     HoverBorderDirective,
-    CryptoCoinsModalComponent
+    CryptoCoinsModalComponent,
+    LoaderComponent,
+    AddressConverterPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     StoreDevtoolsModule.instrument({
       name: 'SwapDex',
-      logOnly: environment.production
+      logOnly: environment.production,
     }),
-    AppStore
+    AppStore,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

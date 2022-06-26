@@ -47,7 +47,8 @@ nav {
         img {
           height: 16px;
           width: 16px;
-          margin: 0px 6px;
+          // margin: 0px 6px;
+          margin-right: 6px;
         }
       }
 
@@ -68,7 +69,7 @@ nav {
         background-color: rgb(253, 234, 241);
         border: 1px solid rgb(253, 234, 241);
         color: rgb(213, 0, 102);
-        width: 100%;
+        width: 150px;
         height: 40px;
         padding: 0.5rem;
         border-radius: 14px;

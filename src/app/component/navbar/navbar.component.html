@@ -1,71 +1,35 @@
 <nav>
   <div class="outer_container">
     <div class="logo">
-      <img
-        class="logo_img"
-        src="https://res.cloudinary.com/neerajnegi2603/image/upload/v1655911388/SwapDex/Assets%20Icons/money-management_cropwg.png"
-        alt="logo"
-      />
+      <img class="logo_img" src="{{ logo }}" alt="logo" />
     </div>
     <h1 class="page_title">SwapDex</h1>
     <div class="wallet_data">
-      <div (click)="toggleNavDropdown()" class="blockchain_network">
-        <img
-          src="https://d33wubrfki0l68.cloudfront.net/fcd4ecd90386aeb50a235ddc4f0063cfbb8a7b66/4295e/static/bfc04ac72981166c740b189463e1f74c/40129/eth-diamond-black-white.jpg"
-          alt="cypto coin"
-        />
+      <div class="blockchain_network">
+        <img src="{{ ethereum }}" alt="cypto coin" />
         <p>Polygon</p>
-        <img
-          src="https://res.cloudinary.com/neerajnegi2603/image/upload/v1654766955/SwapDex/Assets%20Icons/dropdownIcon_wuh67n.svg"
-          alt="dropdown"
-        />
+        <!-- <img src="{{ dropdownBlack }}" alt="dropdown" /> -->
       </div>
-      <div class="user_data">
+      <div *ngIf="isWalletConnected" class="user_data">
         <div class="user_balance">0 Eth</div>
-        <div class="address">0xEd40....6693</div>
+        <div class="address">{{ userWalletAddress | addressConverter }}</div>
       </div>
-      <!-- <div (click)="toggleNavDropdown()" class="connect_wallet_btn">
-        Connect Wallet
-      </div> -->
-      <div *ngIf="toggleNavNetwork" class="navbar_toggle_network">
+      <div
+        *ngIf="!isWalletConnected"
+        (click)="connectWallet()"
+        class="connect_wallet_btn"
+      >
+        <p *ngIf="!connectWalletNavLoader">Connect Wallet</p>
+        <app-loader *ngIf="connectWalletNavLoader"></app-loader>
+      </div>
+      <!-- <div *ngIf="toggleNavNetwork" class="navbar_toggle_network">
         <ul>
           <li class="selectedNetwork" (click)="selectNetwork('mainnet')">
-            <img
-              src="https://d33wubrfki0l68.cloudfront.net/fcd4ecd90386aeb50a235ddc4f0063cfbb8a7b66/4295e/static/bfc04ac72981166c740b189463e1f74c/40129/eth-diamond-black-white.jpg"
-              alt="crypto Icon"
-            />
-            <p>Mainnet</p>
-          </li>
-          <li (click)="selectNetwork('mainnet')">
-            <img
-              src="https://d33wubrfki0l68.cloudfront.net/fcd4ecd90386aeb50a235ddc4f0063cfbb8a7b66/4295e/static/bfc04ac72981166c740b189463e1f74c/40129/eth-diamond-black-white.jpg"
-              alt="crypto Icon"
-            />
-            <p>Mainnet</p>
-          </li>
-          <li (click)="selectNetwork('mainnet')">
-            <img
-              src="https://d33wubrfki0l68.cloudfront.net/fcd4ecd90386aeb50a235ddc4f0063cfbb8a7b66/4295e/static/bfc04ac72981166c740b189463e1f74c/40129/eth-diamond-black-white.jpg"
-              alt="crypto Icon"
-            />
-            <p>Mainnet</p>
-          </li>
-          <li (click)="selectNetwork('mainnet')">
-            <img
-              src="https://d33wubrfki0l68.cloudfront.net/fcd4ecd90386aeb50a235ddc4f0063cfbb8a7b66/4295e/static/bfc04ac72981166c740b189463e1f74c/40129/eth-diamond-black-white.jpg"
-              alt="crypto Icon"
-            />
-            <p>Mainnet</p>
-          </li>
-          <li (click)="selectNetwork('mainnet')">
-            <img
-              src="https://d33wubrfki0l68.cloudfront.net/fcd4ecd90386aeb50a235ddc4f0063cfbb8a7b66/4295e/static/bfc04ac72981166c740b189463e1f74c/40129/eth-diamond-black-white.jpg"
-              alt="crypto Icon"
-            />
+            <img src="{{ ethereum }}" />
             <p>Mainnet</p>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </div>
 </nav>

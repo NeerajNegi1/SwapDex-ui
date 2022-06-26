@@ -1,4 +1,4 @@
-<!-- <app-crypto-coins-modal></app-crypto-coins-modal> -->
+<app-crypto-coins-modal></app-crypto-coins-modal>
 <div class="swap_card_outer">
   <div class="swap_card">
     <p class="swap_card_title">Swap</p>
@@ -6,58 +6,35 @@
       <div appHoverBorder class="token_1_input">
         <div class="token_1_input_container">
           <input type="text" placeholder="0.0" />
-          <div class="change_coin_btn">
-            <img
-              class="token_logo"
-              src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
-              alt=""
-            />
+          <div (click)="toggleModelHandler()" class="change_coin_btn">
+            <img class="token_logo" src="{{ ethereum }}" alt="crypto icon" />
             <p>USDT</p>
-            <img
-              class="dropdown"
-              src="https://res.cloudinary.com/neerajnegi2603/image/upload/v1654766955/SwapDex/Assets%20Icons/dropdownIcon_wuh67n.svg"
-              alt=""
-            />
+            <img class="dropdown" src="{{ dropdownBlack }}" alt="dropdown" />
           </div>
         </div>
         <p class="user_balance">Balance: 0</p>
       </div>
-      <img
-        class="swap_token_arrow"
-        src="https://res.cloudinary.com/neerajnegi2603/image/upload/v1655911180/SwapDex/Assets%20Icons/right-arrow_gikeiw.png"
-        alt="arrow"
-      />
+      <img class="swap_token_arrow" src="{{ swapIcon }}" alt="swap icon" />
       <div appHoverBorder class="token_1_input token_2_input">
         <div class="token_1_input_container">
           <input type="text" placeholder="0.0" />
-          <!-- <div class="change_coin_btn">
-            <img
-              class="token_logo"
-              src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png"
-              alt=""
-            />
+          <div (click)="toggleModelHandler()" class="change_coin_btn">
+            <img class="token_logo" src="{{ ethereum }}" alt="crypto icon" />
             <p>USDT</p>
-            <img
-              class="dropdown"
-              src="https://res.cloudinary.com/neerajnegi2603/image/upload/v1654766955/SwapDex/Assets%20Icons/dropdownIcon_wuh67n.svg"
-              alt=""
-            />
-          </div> -->
-          <div class="change_coin_btn select_token">
+            <img class="dropdown" src="{{ dropdownBlack }}" alt="dropdown" />
+          </div>
+          <!-- <div class="change_coin_btn select_token">
             <p>Select a token</p>
             <img
               class="dropdown"
-              src="https://res.cloudinary.com/neerajnegi2603/image/upload/v1655227638/SwapDex/Assets%20Icons/whiteDropdown_hdqusl.svg"
-              alt=""
+              src="{{ dropdownWhite }}"
+              alt="white dropdown"
             />
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="crypto_info">
-        <img
-          src="https://res.cloudinary.com/neerajnegi2603/image/upload/v1655911764/SwapDex/Assets%20Icons/icons8-info_xnbdj9.gif"
-          alt="info"
-        />
+        <img src="{{ infoIcon }}" alt="info" />
         <p>1 Wmatic = 0.332342342 ETH</p>
       </div>
       <div class="swapdex_btn">Connect Wallet</div>

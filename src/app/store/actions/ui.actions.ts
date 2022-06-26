@@ -1,4 +1,8 @@
-import { createAction } from "@ngrx/store";
+import { createAction, props } from '@ngrx/store';
 
+export const toggleModelActions = createAction('toggleModel');
 
-export const toggleNavNetworkActions = createAction("toggleNavNetwork");
+export const connectWalletNavLoaderActions = createAction(
+  'connectWalletNavLoader',
+  props<{ connectWalletNavLoader: boolean }>()
+);
