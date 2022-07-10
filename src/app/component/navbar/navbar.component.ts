@@ -5,6 +5,7 @@ import { WalletConnectService } from 'src/app/service/wallet/wallet-connect.serv
 import { connectWalletNavLoaderActions } from 'src/app/store/actions/ui.actions';
 import {
   setChainData,
+  setcurrentChainId,
   setUserWalletAddress,
 } from 'src/app/store/actions/user.actions';
 import allImages from 'src/assets/allImages';
@@ -15,16 +16,16 @@ import allImages from 'src/assets/allImages';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  logo: String = allImages.logo;
-  ethereum: String = allImages.ethereum;
-  dropdownBlack: String = allImages.dropdownBlack;
+  logo: string = allImages.logo;
+  ethereum: string = allImages.ethereum;
+  dropdownBlack: string = allImages.dropdownBlack;
   connectWalletNavLoader: boolean = false;
   isWalletConnected: Boolean = false;
-  userWalletAddress: String = '';
-  symbol: String = '';
+  userWalletAddress: string = '';
+  symbol: string = '';
   balance: number = 0;
-  image: String = '';
-  chainName: String = '';
+  image: string = '';
+  chainName: string = '';
   chainId: string = '';
 
   cryptoData = [];
@@ -51,15 +52,26 @@ export class NavbarComponent implements OnInit {
     this.store.select('cryptoData').subscribe((data) => {
       this.cryptoData = data.cryptoData;
     });
-    this._walletConnectService.chainNetworkHandler();
+    // this._walletConnectService.chainNetworkHandler();
+    this.chainNetworkHandler();
+  }
+
+  async chainNetworkHandler() {
+    const { ethereum } = window;
+    if (!ethereum) return;
+    ethereum.on('chainChanged', (chainId: any) => {
+      console.log(chainId);
+      this.setChainDataHandler(chainId, this.userWalletAddress);
+      this.store.dispatch(setcurrentChainId({ currentChainId: chainId }));
+    });
   }
 
   async connectWallet() {
     let userSavedResponse: any;
 
-    this.store.dispatch(
-      connectWalletNavLoaderActions({ connectWalletNavLoader: true })
-    );
+    // this.store.dispatch(
+    //   connectWalletNavLoaderActions({ connectWalletNavLoader: true })
+    // );
     let response: any = await this._walletConnectService.connectToWallet();
 
     if (!response) {
