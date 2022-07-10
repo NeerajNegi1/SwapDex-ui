@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { setcurrentChainId } from 'src/app/store/actions/user.actions';
 import { ethers } from 'ethers';
-import Web3 from 'web3';
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +28,10 @@ export class WalletConnectService {
     return response;
   }
 
-  async chainNetworkHandler({ fun }: any) {
+  async chainNetworkHandler() {
     const { ethereum } = window;
     if (!ethereum) return;
     ethereum.on('chainChanged', (chainId: any) => {
-      fun?.(chainId);
       this.store.dispatch(setcurrentChainId({ currentChainId: chainId }));
     });
   }
@@ -41,17 +39,13 @@ export class WalletConnectService {
   async getWeb3JsProvider() {
     const { ethereum } = window;
     if (!ethereum) return;
-    // const provider = new ethers.providers.Web3Provider(ethereum);
-    const provider = new Web3(ethereum);
+    const provider = new ethers.providers.Web3Provider(ethereum);
     return provider;
   }
 
   async getBalance({ userAddress, decimal }: any) {
-    console.log('here');
     let provider = await this.getWeb3JsProvider();
-
-    let balance: any = await provider.getBalance(userAddress);
-    console.log(balance, 'balance');
+    let balance: any = await provider?.getBalance(userAddress);
     return balance / 10 ** decimal;
   }
 }

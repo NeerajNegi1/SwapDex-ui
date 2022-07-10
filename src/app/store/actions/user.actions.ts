@@ -22,5 +22,6 @@ export const setChainData = createAction(
     currentChainBalance: number;
     currentChainSymbol: string;
     currentChainImage: string;
+    currentChainName: string;
   }>()
 );

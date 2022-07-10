@@ -24,6 +24,8 @@ export class NavbarComponent implements OnInit {
   symbol: String = '';
   balance: number = 0;
   image: String = '';
+  chainName: String = '';
+  chainId: string = '';
 
   cryptoData = [];
 
@@ -40,14 +42,16 @@ export class NavbarComponent implements OnInit {
     this.store.select('user').subscribe((data) => {
       this.isWalletConnected = data.isWalletConnected;
       this.userWalletAddress = data.userWalletAddress;
+      this.symbol = data.currentChainSymbol;
+      this.balance = data.currentChainBalance.toFixed(5);
+      this.image = data.currentChainImage;
+      this.chainName = data.currentChainName;
+      this.chainId = data.currentChainId;
     });
     this.store.select('cryptoData').subscribe((data) => {
-      console.log(data.cryptoData, 'cryptoData');
       this.cryptoData = data.cryptoData;
     });
-    this._walletConnectService.chainNetworkHandler({
-      fun: this.setChainDataHandler,
-    });
+    this._walletConnectService.chainNetworkHandler();
   }
 
   async connectWallet() {
@@ -66,7 +70,7 @@ export class NavbarComponent implements OnInit {
     }
 
     const chainId = await this._walletConnectService.getChainId();
-    this.setChainDataHandler(chainId);
+    this.setChainDataHandler(chainId, response);
     this._userLoginSignup
       .userLoginSignup(response)
       .subscribe((response: any) => {
@@ -84,23 +88,25 @@ export class NavbarComponent implements OnInit {
       });
   }
 
-  setChainDataHandler(chainId: string) {
-    console.log('here', chainId);
+  setChainDataHandler(chainId: string, walletAddress = '') {
     this.cryptoData.forEach(async (coin: any) => {
-      if (parseInt(chainId, 16) === coin.chainId) {
-        let balance = await this._walletConnectService.getBalance({
-          userAddress: this.userWalletAddress,
+      if (parseInt(chainId) === coin.chainId) {
+        let balance: any = await this._walletConnectService.getBalance({
+          userAddress:
+            this.userWalletAddress.length !== 0
+              ? this.userWalletAddress
+              : walletAddress,
           decimal: coin.defaultCoinDetails.decimals,
         });
-        // this.store.dispatch(
-        //   setChainData({
-        //     currentChainBalance: 0,
-        //     currentChainSymbol: '',
-        //     currentChainImage: '',
-        //   })
-        // );
+        this.store.dispatch(
+          setChainData({
+            currentChainBalance: parseFloat(balance),
+            currentChainSymbol: coin.defaultCoinDetails.symbol,
+            currentChainImage: coin.defaultCoinDetails.image,
+            currentChainName: coin.defaultCoinDetails.name,
+          })
+        );
       }
     });
-    // dispatch(setFetchSelectedTokenBalance()); // for refreshing the balance in ui
   }
 }

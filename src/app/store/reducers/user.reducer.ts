@@ -9,6 +9,7 @@ const initialState = {
   currentChainBalance: 0,
   currentChainSymbol: '',
   currentChainImage: '',
+  currentChainName: '',
 };
 
 const UserState = createReducer(
@@ -19,13 +20,22 @@ const UserState = createReducer(
       userWalletAddress: action.userWalletAddress,
       walletName: action.walletName,
       isWalletConnected: true,
-      currentChainId: parseInt(action.chainId, 16),
+      currentChainId: parseInt(action.chainId),
     };
   }),
   on(actions.setcurrentChainId, (state: any, action: any) => {
     return {
       ...state,
-      currentChainId: parseInt(action.currentChainId, 16),
+      currentChainId: parseInt(action.currentChainId),
+    };
+  }),
+  on(actions.setChainData, (state: any, action: any) => {
+    return {
+      ...state,
+      currentChainBalance: action.currentChainBalance,
+      currentChainSymbol: action.currentChainSymbol,
+      currentChainImage: action.currentChainImage,
+      currentChainName: action.currentChainName,
     };
   })
 );
