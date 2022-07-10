@@ -24,6 +24,8 @@ export class SwapCardComponent implements OnInit, OnDestroy {
   dropdownBlack: String = allImages.dropdownBlack;
   swapIcon: String = allImages.swapIcon;
 
+  oneUnitBuyTokenValue: number = 0;
+
   buyCoin: any = {
     state: false,
     data: {},
@@ -33,11 +35,23 @@ export class SwapCardComponent implements OnInit, OnDestroy {
     data: {},
   };
 
+  quotationData = {
+    state: false,
+    data: {
+      totalBuyTokenReceivedByUser: 0,
+      priceForOneUnitOfBuyToken: 0,
+    },
+  };
+
+  sellTokenValue: any;
+  buyTokenValue: any;
+
   cryptoDataStore: any;
   uiStore: any;
   showerror: any;
   timer = 16;
   timeout: any;
+  debouncer: any;
 
   constructor(
     private store: Store<any>,
@@ -91,7 +105,13 @@ export class SwapCardComponent implements OnInit, OnDestroy {
   }
 
   getQuotation() {
-    if (!this.buyCoin.state || !this.sellCoin.state) return;
+    if (
+      !this.buyCoin.state ||
+      !this.sellCoin.state ||
+      isNaN(parseFloat(this.sellTokenValue)) ||
+      this.sellTokenValue < 0
+    )
+      return;
 
     if (this.timeout) clearTimeout(this.timeout);
 
@@ -111,9 +131,50 @@ export class SwapCardComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(setSellCoin({ sellCoin: this.buyCoin.data }));
     this.store.dispatch(setBuyCoin({ buyCoin: this.sellCoin.data }));
+    this.getQuotation();
   }
 
   fetchQuotations() {
-    console.log('data fetch successfully');
+    this._cryptoDataService
+      .getFetchQuotations(this.buyCoin, this.sellCoin, this.sellTokenValue)
+      .subscribe((response: any) => {
+        if (response.success) {
+          this.quotationData = {
+            state: true,
+            data: {
+              totalBuyTokenReceivedByUser:
+                response.data.totalBuyTokenReceivedByUser,
+              priceForOneUnitOfBuyToken:
+                response.data.priceForOneUnitOfBuyToken,
+            },
+          };
+          this.buyTokenValue = response.data.totalBuyTokenReceivedByUser;
+        }
+      });
+  }
+
+  sellTokenValueChangeHandler(value: any) {
+    if (this.debouncer) clearTimeout(this.debouncer);
+
+    if (
+      !this.buyCoin.state ||
+      !this.sellCoin.state ||
+      isNaN(parseFloat(this.sellTokenValue)) ||
+      this.sellTokenValue < 0
+    ) {
+      this.quotationData = {
+        state: false,
+        data: {
+          totalBuyTokenReceivedByUser: 0,
+          priceForOneUnitOfBuyToken: 0,
+        },
+      };
+      this.buyTokenValue = 0;
+      return;
+    }
+
+    this.debouncer = setTimeout(() => {
+      this.fetchQuotations();
+    }, 500);
   }
 }

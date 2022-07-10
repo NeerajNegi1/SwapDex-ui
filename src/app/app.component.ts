@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { MetaMaskInpageProvider } from '@metamask/providers';
+
 declare global {
   interface Window {
-    ethereum?: MetaMaskInpageProvider;
+    ethereum?: any;
   }
 }
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

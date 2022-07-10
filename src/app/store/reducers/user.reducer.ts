@@ -5,6 +5,10 @@ const initialState = {
   userWalletAddress: '',
   isWalletConnected: false,
   walletName: '',
+  currentChainId: '',
+  currentChainBalance: 0,
+  currentChainSymbol: '',
+  currentChainImage: '',
 };
 
 const UserState = createReducer(
@@ -15,6 +19,13 @@ const UserState = createReducer(
       userWalletAddress: action.userWalletAddress,
       walletName: action.walletName,
       isWalletConnected: true,
+      currentChainId: parseInt(action.chainId, 16),
+    };
+  }),
+  on(actions.setcurrentChainId, (state: any, action: any) => {
+    return {
+      ...state,
+      currentChainId: parseInt(action.currentChainId, 16),
     };
   })
 );

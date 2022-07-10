@@ -5,7 +5,15 @@
     <div class="swap_card_container">
       <div appHoverBorder class="token_1_input">
         <div class="token_1_input_container">
-          <input type="text" placeholder="0.0" />
+          <input
+            type="number"
+            pattern="[0-9]*"
+            inputmode="numeric"
+            placeholder="0.0"
+            min="0"
+            [(ngModel)]="sellTokenValue"
+            (ngModelChange)="sellTokenValueChangeHandler($event)"
+          />
           <div
             *ngIf="sellCoin.state"
             (click)="toggleModelHandler('SellToken')"
@@ -42,7 +50,15 @@
       />
       <div appHoverBorder class="token_1_input token_2_input">
         <div class="token_1_input_container">
-          <input type="text" placeholder="0.0" />
+          <input
+            type="number"
+            pattern="[0-9]*"
+            inputmode="numeric"
+            placeholder="0.0"
+            min="0"
+            value="{{ buyTokenValue }}"
+            [disabled]="true"
+          />
           <div
             *ngIf="buyCoin.state"
             (click)="toggleModelHandler('BuyToken')"
@@ -70,10 +86,14 @@
           </div>
         </div>
       </div>
-      <div class="crypto_info">
+      <div *ngIf="quotationData.state" class="crypto_info">
         <img src="{{ infoIcon }}" alt="info" />
         <div class="quotation_data">
-          <p #timerElement>1 Wmatic = 0.332342342 ETH</p>
+          <p #timerElement>
+            1 {{ sellCoin?.data?.nativeCurrency?.symbol }} =
+            {{ quotationData?.data?.priceForOneUnitOfBuyToken }}
+            {{ buyCoin?.data?.nativeCurrency?.symbol }}
+          </p>
           <p *ngIf="timer < 16">{{ timer }} <span>s</span></p>
         </div>
       </div>

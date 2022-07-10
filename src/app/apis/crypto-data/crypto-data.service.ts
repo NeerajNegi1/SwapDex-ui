@@ -12,4 +12,11 @@ export class CryptoDataService {
   getCryptoTokens() {
     return this.http.get(`${this.apiUrl}chains`);
   }
+  getFetchQuotations(buyCoin: any, sellCoin: any, sellTokenAmount: number) {
+    return this.http.post(`${this.apiUrl}quotaions`, {
+      buyTokenId: buyCoin.data.defaultCoinDetails.uniqueId,
+      sellTokenId: sellCoin.data.defaultCoinDetails.uniqueId,
+      sellTokenAmount,
+    });
+  }
 }

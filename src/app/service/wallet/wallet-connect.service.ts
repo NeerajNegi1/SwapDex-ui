@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { setcurrentChainId } from 'src/app/store/actions/user.actions';
+import { ethers } from 'ethers';
+import Web3 from 'web3';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletConnectService {
-  constructor() {}
+  constructor(private store: Store<any>) {}
 
   async connectToWallet() {
     const { ethereum } = window;
@@ -23,6 +27,32 @@ export class WalletConnectService {
     if (!ethereum) return;
     let response: any = await ethereum.request({ method: 'eth_chainId' });
     return response;
+  }
+
+  async chainNetworkHandler({ fun }: any) {
+    const { ethereum } = window;
+    if (!ethereum) return;
+    ethereum.on('chainChanged', (chainId: any) => {
+      fun?.(chainId);
+      this.store.dispatch(setcurrentChainId({ currentChainId: chainId }));
+    });
+  }
+
+  async getWeb3JsProvider() {
+    const { ethereum } = window;
+    if (!ethereum) return;
+    // const provider = new ethers.providers.Web3Provider(ethereum);
+    const provider = new Web3(ethereum);
+    return provider;
+  }
+
+  async getBalance({ userAddress, decimal }: any) {
+    console.log('here');
+    let provider = await this.getWeb3JsProvider();
+
+    let balance: any = await provider.getBalance(userAddress);
+    console.log(balance, 'balance');
+    return balance / 10 ** decimal;
   }
 }
 
@@ -361,16 +391,6 @@ export class WalletConnectService {
 //       },
 //     });
 //     // console.log(response);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// const getWeb3JsProvider = async () => {
-//   try {
-//     if (!window.ethereum) return;
-//     const web3 = new Web3(window.ethereum);
-//     return web3;
 //   } catch (error) {
 //     console.log(error);
 //   }

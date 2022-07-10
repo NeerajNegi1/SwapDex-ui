@@ -46,7 +46,7 @@
         background-color: rgb(247, 248, 250);
         border-radius: 20px;
         height: 100%;
-        font-size: 1.6rem;
+        font-size: 1.05rem;
         padding: 12px;
       }
 
@@ -178,4 +178,15 @@
   display: flex;
   justify-content: space-between;
   width: 88%;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

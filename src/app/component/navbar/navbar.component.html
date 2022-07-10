@@ -5,13 +5,13 @@
     </div>
     <h1 class="page_title">SwapDex</h1>
     <div class="wallet_data">
-      <div class="blockchain_network">
+      <!-- <div class="blockchain_network">
         <img src="{{ ethereum }}" alt="cypto coin" />
         <p>Polygon</p>
-        <!-- <img src="{{ dropdownBlack }}" alt="dropdown" /> -->
-      </div>
+        <img src="{{ dropdownBlack }}" alt="dropdown" />
+      </div> -->
       <div *ngIf="isWalletConnected" class="user_data">
-        <div class="user_balance">0 Eth</div>
+        <!-- <div class="user_balance">0 Eth</div> -->
         <div class="address">{{ userWalletAddress | addressConverter }}</div>
       </div>
       <div
