@@ -95,7 +95,7 @@
         align-items: center;
         background-color: rgb(232, 0, 111);
         box-shadow: rgb(0 0 0 / 8%) 0px 6px 10px;
-        color: rgb(255, 255, 255);
+        color: rgb(255, 255, 255) !important;
         cursor: pointer;
         border-radius: 16px;
         outline: none;
@@ -160,4 +160,22 @@
       background-color: rgb(249, 201, 219);
     }
   }
+}
+
+.select_token_1 {
+  background-color: rgb(232, 0, 111) !important;
+  width: 70% !important;
+  color: white !important;
+}
+
+.error_msg {
+  padding: 0.3rem;
+  color: red;
+  font-size: 12px;
+  margin-top: 0.5rem;
+}
+.quotation_data {
+  display: flex;
+  justify-content: space-between;
+  width: 88%;
 }

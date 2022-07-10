@@ -4,18 +4,27 @@
       <p>Select a Currency</p>
       <img (click)="closeModalHandler()" src="{{ closeImg }}" alt="close" />
     </div>
-    <input placeholder="Search coin" class="search_crypto" type="text" />
+    <input
+      placeholder="Search coin"
+      class="search_crypto"
+      type="text"
+      (keyup)="searchCrypto($event)"
+    />
     <div class="coins_container">
       <ul>
-        <li class="selected_token">
-          <img src="{{ ethereum }}" alt="crypto logo" />
-          <p>Eth (Ethereum)</p>
-        </li>
-        <li>
-          <img src="{{ ethereum }}" alt="crypto logo" />
-          <p>Eth (Ethereum)</p>
+        <li
+          *ngFor="let item of filteredCoinData"
+          (click)="selectCoinHandler(item)"
+        >
+          <img src="{{ item?.defaultCoinDetails?.image }}" alt="crypto logo" />
+          <p>{{ item?.chain }}</p>
+          <span class="add_crypto_wallte">Add Chain</span>
         </li>
       </ul>
     </div>
   </div>
 </div>
+
+<!-- [ngClass]="{
+            selected_token: item.isSelected
+          }" -->

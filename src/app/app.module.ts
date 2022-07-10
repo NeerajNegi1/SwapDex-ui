@@ -13,6 +13,7 @@ import { AppStore } from './store';
 import { CryptoCoinsModalComponent } from './component/crypto-coins-modal/crypto-coins-modal.component';
 import { LoaderComponent } from './component/loader/loader.component';
 import { AddressConverterPipe } from './pipe/address-converter.pipe';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -28,11 +29,12 @@ import { AddressConverterPipe } from './pipe/address-converter.pipe';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreDevtoolsModule.instrument({
-      name: 'SwapDex',
-      logOnly: environment.production,
-    }),
-    AppStore,
+    StoreModule.forRoot(AppStore),
+    !environment.production
+      ? StoreDevtoolsModule.instrument({
+          logOnly: environment.production,
+        })
+      : [],
   ],
   providers: [],
   bootstrap: [AppComponent],

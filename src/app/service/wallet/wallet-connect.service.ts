@@ -17,6 +17,13 @@ export class WalletConnectService {
     }
     return response[0];
   }
+
+  async getChainId() {
+    const { ethereum } = window;
+    if (!ethereum) return;
+    let response: any = await ethereum.request({ method: 'eth_chainId' });
+    return response;
+  }
 }
 
 // import {

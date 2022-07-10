@@ -86,5 +86,13 @@
     .coins_container::-webkit-scrollbar {
       width: 0px;
     }
+    .add_crypto_wallte {
+      margin-left: auto;
+      background-color: rgb(253, 234, 241);
+      color: rgb(213, 0, 102);
+      padding: 6px;
+      font-size: 14px;
+      border-radius: 4px;
+    }
   }
 }

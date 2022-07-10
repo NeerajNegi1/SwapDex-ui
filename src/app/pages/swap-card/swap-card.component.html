@@ -6,37 +6,78 @@
       <div appHoverBorder class="token_1_input">
         <div class="token_1_input_container">
           <input type="text" placeholder="0.0" />
-          <div (click)="toggleModelHandler()" class="change_coin_btn">
-            <img class="token_logo" src="{{ ethereum }}" alt="crypto icon" />
-            <p>USDT</p>
+          <div
+            *ngIf="sellCoin.state"
+            (click)="toggleModelHandler('SellToken')"
+            class="change_coin_btn"
+          >
+            <img
+              class="token_logo"
+              src="{{ sellCoin?.data?.defaultCoinDetails?.image }}"
+              alt="crypto icon"
+            />
+            <p>{{ sellCoin?.data?.nativeCurrency?.symbol }}</p>
             <img class="dropdown" src="{{ dropdownBlack }}" alt="dropdown" />
           </div>
-        </div>
-        <p class="user_balance">Balance: 0</p>
-      </div>
-      <img class="swap_token_arrow" src="{{ swapIcon }}" alt="swap icon" />
-      <div appHoverBorder class="token_1_input token_2_input">
-        <div class="token_1_input_container">
-          <input type="text" placeholder="0.0" />
-          <div (click)="toggleModelHandler()" class="change_coin_btn">
-            <img class="token_logo" src="{{ ethereum }}" alt="crypto icon" />
-            <p>USDT</p>
-            <img class="dropdown" src="{{ dropdownBlack }}" alt="dropdown" />
-          </div>
-          <!-- <div class="change_coin_btn select_token">
+          <div
+            *ngIf="!sellCoin.state"
+            (click)="toggleModelHandler('SellToken')"
+            class="change_coin_btn select_token select_token_1"
+          >
             <p>Select a token</p>
             <img
               class="dropdown"
               src="{{ dropdownWhite }}"
               alt="white dropdown"
             />
-          </div> -->
+          </div>
+        </div>
+        <p class="user_balance">Balance: 0</p>
+      </div>
+      <img
+        (click)="swapCoinHandler()"
+        class="swap_token_arrow"
+        src="{{ swapIcon }}"
+        alt="swap icon"
+      />
+      <div appHoverBorder class="token_1_input token_2_input">
+        <div class="token_1_input_container">
+          <input type="text" placeholder="0.0" />
+          <div
+            *ngIf="buyCoin.state"
+            (click)="toggleModelHandler('BuyToken')"
+            class="change_coin_btn"
+          >
+            <img
+              class="token_logo"
+              src="{{ buyCoin?.data?.defaultCoinDetails?.image }}"
+              alt="crypto icon"
+            />
+            <p>{{ buyCoin?.data?.nativeCurrency?.symbol }}</p>
+            <img class="dropdown" src="{{ dropdownBlack }}" alt="dropdown" />
+          </div>
+          <div
+            *ngIf="!buyCoin.state"
+            (click)="toggleModelHandler('BuyToken')"
+            class="change_coin_btn select_token"
+          >
+            <p>Select a token</p>
+            <img
+              class="dropdown"
+              src="{{ dropdownWhite }}"
+              alt="white dropdown"
+            />
+          </div>
         </div>
       </div>
       <div class="crypto_info">
         <img src="{{ infoIcon }}" alt="info" />
-        <p>1 Wmatic = 0.332342342 ETH</p>
+        <div class="quotation_data">
+          <p #timerElement>1 Wmatic = 0.332342342 ETH</p>
+          <p *ngIf="timer < 16">{{ timer }} <span>s</span></p>
+        </div>
       </div>
+      <p *ngIf="showerror.state" class="error_msg">{{ showerror.message }}</p>
       <div class="swapdex_btn">Connect Wallet</div>
     </div>
   </div>

@@ -50,6 +50,8 @@ export class NavbarComponent implements OnInit {
       return; // have to create a snackbar popup to show user that he/she is not connected to wallet
     }
 
+    console.log(await this._walletConnectService.getChainId());
+
     this._userLoginSignup
       .userLoginSignup(response)
       .subscribe((response: any) => {

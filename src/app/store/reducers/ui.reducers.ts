@@ -4,6 +4,11 @@ import * as actions from '../actions/ui.actions';
 const initialState = {
   toggleModel: false,
   connectWalletNavLoader: false,
+  mode: '',
+  showerror: {
+    state: false,
+    message: '',
+  },
 };
 
 const UiState = createReducer(
@@ -18,6 +23,18 @@ const UiState = createReducer(
     return {
       ...state,
       connectWalletNavLoader: action.connectWalletNavLoader,
+    };
+  }),
+  on(actions.buySellModeActions, (state: any, action: any) => {
+    return {
+      ...state,
+      mode: action.mode,
+    };
+  }),
+  on(actions.showErrorMessage, (state: any, action: any) => {
+    return {
+      ...state,
+      showerror: action.msgPayload,
     };
   })
 );
