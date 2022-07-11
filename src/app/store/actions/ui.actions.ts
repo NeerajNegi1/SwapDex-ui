@@ -16,3 +16,13 @@ export const showErrorMessage = createAction(
   'showErrorMessage',
   props<{ msgPayload: any }>()
 );
+
+export const showSnackbar = createAction(
+  'showSnackbar',
+  props<{ message: any; state: boolean }>()
+);
+
+export const isSwapStarted = createAction(
+  'showSnackbar',
+  props<{ state: boolean }>()
+);

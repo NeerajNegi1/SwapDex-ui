@@ -18,7 +18,11 @@
         >
           <img src="{{ item?.defaultCoinDetails?.image }}" alt="crypto logo" />
           <p>{{ item?.chain }}</p>
-          <span class="add_crypto_wallte">Add Chain</span>
+          <span
+            class="add_crypto_wallte"
+            (click)="addChainToWallet($event, item)"
+            >Add Chain</span
+          >
         </li>
       </ul>
     </div>

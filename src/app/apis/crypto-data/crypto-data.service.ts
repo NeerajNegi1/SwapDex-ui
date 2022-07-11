@@ -19,4 +19,7 @@ export class CryptoDataService {
       sellTokenAmount,
     });
   }
+  createQuotations(data: any) {
+    return this.http.post(`${this.apiUrl}create-quotations`, data);
+  }
 }

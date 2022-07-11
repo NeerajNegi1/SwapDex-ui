@@ -48,6 +48,13 @@ export class WalletConnectService {
     let balance: any = await provider?.getBalance(userAddress);
     return balance / 10 ** decimal;
   }
+
+  async switchWalletNetwork(chain: any) {
+    await window.ethereum.request({
+      method: 'wallet_addEthereumChain',
+      params: [chain],
+    });
+  }
 }
 
 // import {

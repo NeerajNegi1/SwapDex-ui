@@ -52,7 +52,6 @@ export class NavbarComponent implements OnInit {
     this.store.select('cryptoData').subscribe((data) => {
       this.cryptoData = data.cryptoData;
     });
-    // this._walletConnectService.chainNetworkHandler();
     this.chainNetworkHandler();
   }
 
@@ -60,7 +59,6 @@ export class NavbarComponent implements OnInit {
     const { ethereum } = window;
     if (!ethereum) return;
     ethereum.on('chainChanged', (chainId: any) => {
-      console.log(chainId);
       this.setChainDataHandler(chainId, this.userWalletAddress);
       this.store.dispatch(setcurrentChainId({ currentChainId: chainId }));
     });
@@ -69,9 +67,9 @@ export class NavbarComponent implements OnInit {
   async connectWallet() {
     let userSavedResponse: any;
 
-    // this.store.dispatch(
-    //   connectWalletNavLoaderActions({ connectWalletNavLoader: true })
-    // );
+    this.store.dispatch(
+      connectWalletNavLoaderActions({ connectWalletNavLoader: true })
+    );
     let response: any = await this._walletConnectService.connectToWallet();
 
     if (!response) {

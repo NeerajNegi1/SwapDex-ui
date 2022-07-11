@@ -6,7 +6,7 @@
     <h1 class="page_title">SwapDex</h1>
     <div class="wallet_data">
       <div *ngIf="isWalletConnected" class="blockchain_network">
-        <img src="{{ image }}" alt="cypto coin" />
+        <img *ngIf="image" src="{{ image }}" alt="cypto coin" />
         <p>{{ chainName }}</p>
         <!-- <img src="{{ dropdownBlack }}" alt="dropdown" /> -->
       </div>

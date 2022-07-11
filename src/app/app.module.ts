@@ -15,6 +15,7 @@ import { CryptoCoinsModalComponent } from './component/crypto-coins-modal/crypto
 import { LoaderComponent } from './component/loader/loader.component';
 import { AddressConverterPipe } from './pipe/address-converter.pipe';
 import { StoreModule } from '@ngrx/store';
+import { SnackbarComponent } from './component/snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { StoreModule } from '@ngrx/store';
     CryptoCoinsModalComponent,
     LoaderComponent,
     AddressConverterPipe,
+    SnackbarComponent,
   ],
   imports: [
     BrowserModule,

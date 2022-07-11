@@ -9,6 +9,11 @@ const initialState = {
     state: false,
     message: '',
   },
+  snackbar: {
+    state: false,
+    message: '',
+  },
+  isSwapStarted: false,
 };
 
 const UiState = createReducer(
@@ -35,6 +40,21 @@ const UiState = createReducer(
     return {
       ...state,
       showerror: action.msgPayload,
+    };
+  }),
+  on(actions.showSnackbar, (state: any, action: any) => {
+    return {
+      ...state,
+      snackbar: {
+        state: action.state,
+        message: action.message,
+      },
+    };
+  }),
+  on(actions.showSnackbar, (state: any, action: any) => {
+    return {
+      ...state,
+      isSwapStarted: action.state,
     };
   })
 );

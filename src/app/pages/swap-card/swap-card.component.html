@@ -12,7 +12,7 @@
             placeholder="0.0"
             min="0"
             [(ngModel)]="sellTokenValue"
-            (ngModelChange)="sellTokenValueChangeHandler($event)"
+            (ngModelChange)="sellTokenValueChangeHandler()"
           />
           <div
             *ngIf="sellCoin.state"
@@ -40,7 +40,7 @@
             />
           </div>
         </div>
-        <p class="user_balance">Balance: 0</p>
+        <!-- <p class="user_balance">Balance: 0</p> -->
       </div>
       <img
         (click)="swapCoinHandler()"
@@ -98,7 +98,12 @@
         </div>
       </div>
       <p *ngIf="showerror.state" class="error_msg">{{ showerror.message }}</p>
-      <div class="swapdex_btn">Connect Wallet</div>
+      <div (click)="swapCryptoHandler()" class="swapdex_btn">
+        <app-loader *ngIf="connectWalletNavLoader"></app-loader>
+        <p *ngIf="!connectWalletNavLoader">
+          {{ isWalletConnected ? "Swap Crypto" : "Connect Wallet" }}
+        </p>
+      </div>
     </div>
   </div>
 </div>

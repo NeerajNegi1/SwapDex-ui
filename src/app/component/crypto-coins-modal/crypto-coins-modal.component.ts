@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { WalletConnectService } from 'src/app/service/wallet/wallet-connect.service';
 import {
   setBuyCoin,
   setSellCoin,
@@ -28,7 +29,10 @@ export class CryptoCoinsModalComponent implements OnInit, OnDestroy {
   uiStore: any;
   cryptoDataStore: any;
 
-  constructor(private store: Store<any>) {}
+  constructor(
+    private store: Store<any>,
+    private _walletConnectService: WalletConnectService
+  ) {}
 
   ngOnInit(): void {
     this.uiStore = this.store.select('ui').subscribe((data) => {
@@ -96,5 +100,20 @@ export class CryptoCoinsModalComponent implements OnInit, OnDestroy {
       this.store.dispatch(setBuyCoin({ buyCoin: coin }));
     }
     this.closeModalHandler();
+  }
+
+  addChainToWallet(event: any, item: any) {
+    event.stopPropagation();
+    let chain = {
+      chainId: `0x${Number(item.chainId).toString(16)}`,
+      chainName: item.name,
+      nativeCurrency: {
+        ...item.nativeCurrency,
+      },
+      rpcUrls: [...item.rpc],
+      blockExplorerUrls: [...item.explorers.map((i: any) => i.url)],
+      iconUrls: [item.defaultCoinDetails.image],
+    };
+    this._walletConnectService.switchWalletNetwork(chain);
   }
 }
