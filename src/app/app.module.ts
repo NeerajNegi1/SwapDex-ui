@@ -16,6 +16,7 @@ import { LoaderComponent } from './component/loader/loader.component';
 import { AddressConverterPipe } from './pipe/address-converter.pipe';
 import { StoreModule } from '@ngrx/store';
 import { SnackbarComponent } from './component/snackbar/snackbar.component';
+import { WarningComponent } from './component/warning/warning/warning.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SnackbarComponent } from './component/snackbar/snackbar.component';
     LoaderComponent,
     AddressConverterPipe,
     SnackbarComponent,
+    WarningComponent,
   ],
   imports: [
     BrowserModule,

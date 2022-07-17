@@ -51,7 +51,7 @@ const UiState = createReducer(
       },
     };
   }),
-  on(actions.showSnackbar, (state: any, action: any) => {
+  on(actions.setIsSwapStarted, (state: any, action: any) => {
     return {
       ...state,
       isSwapStarted: action.state,

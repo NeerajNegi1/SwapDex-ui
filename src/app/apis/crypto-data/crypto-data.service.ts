@@ -22,4 +22,11 @@ export class CryptoDataService {
   createQuotations(data: any) {
     return this.http.post(`${this.apiUrl}create-quotations`, data);
   }
+  verifyTransaction(data: any) {
+    return this.http.post(`${this.apiUrl}verify-transaction`, data);
+  }
+
+  transactionStatus(id: string) {
+    return this.http.get(`${this.apiUrl}quotation-status/${id}`);
+  }
 }

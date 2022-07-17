@@ -12,6 +12,7 @@ import {
 import {
   buySellModeActions,
   connectWalletNavLoaderActions,
+  setIsSwapStarted,
   toggleModelActions,
 } from 'src/app/store/actions/ui.actions';
 import {
@@ -66,6 +67,9 @@ export class SwapCardComponent implements OnInit, OnDestroy {
   userWalletAddress: string = '';
   cryptoData = [];
   connectWalletNavLoader: boolean = false;
+  isSwapStarted: boolean = false;
+
+  orderId: string = '';
 
   constructor(
     private store: Store<any>,
@@ -106,6 +110,7 @@ export class SwapCardComponent implements OnInit, OnDestroy {
     this.uiStore = this.store.select('ui').subscribe((data) => {
       this.showerror = data.showerror;
       this.connectWalletNavLoader = data.connectWalletNavLoader;
+      this.isSwapStarted = data.isSwapStarted;
       if (!data.toggleModel) {
         this.timer = 16;
         this.getQuotation();
@@ -133,7 +138,7 @@ export class SwapCardComponent implements OnInit, OnDestroy {
       !this.buyCoin.state ||
       !this.sellCoin.state ||
       isNaN(parseFloat(this.sellTokenValue)) ||
-      this.sellTokenValue < 0
+      this.sellTokenValue <= 0
     )
       return;
 
@@ -184,7 +189,7 @@ export class SwapCardComponent implements OnInit, OnDestroy {
       !this.buyCoin.state ||
       !this.sellCoin.state ||
       isNaN(parseFloat(this.sellTokenValue)) ||
-      this.sellTokenValue < 0
+      this.sellTokenValue <= 0
     ) {
       this.buyTokenValue = 0;
       return;
@@ -267,18 +272,109 @@ export class SwapCardComponent implements OnInit, OnDestroy {
     this._walletConnectService.switchWalletNetwork(chain);
   }
 
+  async createQuotation() {
+    return new Promise((resolve, reject) => {
+      this._cryptoDataService
+        .createQuotations({
+          buyCoinId: this.buyCoin.data._id,
+          sellCoinId: this.sellCoin.data._id,
+          sellCoinAmount:
+            this.sellTokenValue *
+            10 ** this.sellCoin.data.defaultCoinDetails.decimals,
+          userWalletAddress: this.userWalletAddress,
+        })
+        .subscribe((response: any) => {
+          this.orderId = response.orderId;
+          resolve(true);
+        });
+    });
+  }
+
+  async verifyTransaction(hash: string) {
+    return new Promise((resolve, reject) => {
+      this._cryptoDataService
+        .verifyTransaction({
+          orderId: this.orderId,
+          transactionHash: hash,
+        })
+        .subscribe((response: any) => {
+          resolve(response);
+        });
+    });
+  }
+
+  transactionStatusMsgMapper: any = {
+    Init: 'Transaction is being initiated...',
+    CoinsReceived: 'Woohoo we received the coins.',
+    TransferringCoins: 'Stay tuned, we are transferring the coins.',
+    Success: 'Yay! We have transferred the coins. Please check your wallet.',
+    Failed:
+      'Unfortunately, the transaction has been failed. Sit back we will send your coins back.',
+  };
+
+  currentTime: any = 0;
+
+  getTransactionStatus() {
+    return new Promise((resolve, reject) => {
+      this._cryptoDataService
+        .transactionStatus(this.orderId)
+        .subscribe((response: any) => {
+          resolve(response);
+        });
+    });
+  }
+
+  async pollTransactionStatus() {
+    if (this.currentTime < Date.now()) {
+      this._snackbarService.snackbarToggle(
+        this.transactionStatusMsgMapper['Failed']
+      );
+      this.store.dispatch(setIsSwapStarted({ state: false }));
+      // have to call the return coin api
+      return;
+    }
+    let { status }: any = await this.getTransactionStatus();
+    console.log(status);
+    if (!status || status === 'Failed') {
+      this._snackbarService.snackbarToggle(
+        this.transactionStatusMsgMapper['Failed']
+      );
+      this.store.dispatch(setIsSwapStarted({ state: false }));
+      // have to call the return coin api
+      return;
+    }
+
+    if (status === 'Success') {
+      this._snackbarService.snackbarToggle(
+        this.transactionStatusMsgMapper[status]
+      );
+      this.store.dispatch(setIsSwapStarted({ state: false }));
+      return;
+    }
+
+    setTimeout(() => {
+      this.pollTransactionStatus(); // have to add this status into the cache
+    }, 5000);
+    // quotation-status/:id
+    // this.store.dispatch(setIsSwapStarted({ state: false }));
+  }
+
   async swapCryptoHandler() {
+    this.currentTime = Date.now() + 900000;
     if (!this.isWalletConnected) {
       this.connectWallet();
     } else {
+      this.store.dispatch(setIsSwapStarted({ state: true }));
       if (!this.buyCoin.state || !this.sellCoin.state) {
         this._snackbarService.snackbarToggle('Please select coins to swap.');
+        this.store.dispatch(setIsSwapStarted({ state: false }));
         return;
       }
       if (isNaN(parseInt(this.sellTokenValue)) || this.sellTokenValue <= 0) {
         this._snackbarService.snackbarToggle(
           'Please enter valid sell token value.'
         );
+        this.store.dispatch(setIsSwapStarted({ state: false }));
         return;
       }
       this.addChainToWallet(this.sellCoin.data);
@@ -290,22 +386,30 @@ export class SwapCardComponent implements OnInit, OnDestroy {
         this._snackbarService.snackbarToggle(
           'Your wallet does not have enough balance.'
         );
+        this.store.dispatch(setIsSwapStarted({ state: false }));
         return;
       }
-      let response = this._cryptoDataService
-        .createQuotations({
-          buyCoinId: this.buyCoin.data._id,
-          sellCoinId: this.sellCoin.data._id,
-          sellCoinAmount:
-            this.sellTokenValue *
-            10 ** this.sellCoin.data.defaultCoinDetails.decimals,
-          userWalletAddress: this.userWalletAddress,
-        })
-        .subscribe((response: any) => {
-          console.log(response, 'from server');
-        });
+      this._snackbarService.snackbarToggle(
+        this.transactionStatusMsgMapper['Init']
+      );
+      await this.createQuotation();
+      let response = await this._walletConnectService.sentTransaction({
+        amount: this.sellTokenValue,
+        decimal: this.sellCoin.data.defaultCoinDetails.decimals,
+      });
 
-      // have to call to send crypto to wallet
+      let isVerified: any = await this.verifyTransaction(response.hash);
+      if (!isVerified.txStatus) {
+        this._snackbarService.snackbarToggle('Transaction failed.');
+        // have to create api for returning the balance to user
+        this.store.dispatch(setIsSwapStarted({ state: false }));
+        return;
+      }
+      this._snackbarService.snackbarToggle(
+        this.transactionStatusMsgMapper['CoinsReceived']
+      );
+
+      this.pollTransactionStatus();
     }
   }
 }

@@ -98,11 +98,22 @@
         </div>
       </div>
       <p *ngIf="showerror.state" class="error_msg">{{ showerror.message }}</p>
-      <div (click)="swapCryptoHandler()" class="swapdex_btn">
+      <div
+        *ngIf="!isSwapStarted"
+        (click)="swapCryptoHandler()"
+        class="swapdex_btn"
+      >
         <app-loader *ngIf="connectWalletNavLoader"></app-loader>
         <p *ngIf="!connectWalletNavLoader">
           {{ isWalletConnected ? "Swap Crypto" : "Connect Wallet" }}
         </p>
+      </div>
+      <div
+        *ngIf="isSwapStarted"
+        (click)="swapCryptoHandler()"
+        class="swapdex_btn"
+      >
+        <app-loader></app-loader>
       </div>
     </div>
   </div>

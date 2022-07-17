@@ -22,7 +22,7 @@ export const showSnackbar = createAction(
   props<{ message: any; state: boolean }>()
 );
 
-export const isSwapStarted = createAction(
-  'showSnackbar',
+export const setIsSwapStarted = createAction(
+  'setIsSwapStarted',
   props<{ state: boolean }>()
 );

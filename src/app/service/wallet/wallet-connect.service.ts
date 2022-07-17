@@ -36,7 +36,7 @@ export class WalletConnectService {
     });
   }
 
-  async getWeb3JsProvider() {
+  async getProvider() {
     const { ethereum } = window;
     if (!ethereum) return;
     const provider = new ethers.providers.Web3Provider(ethereum);
@@ -44,8 +44,8 @@ export class WalletConnectService {
   }
 
   async getBalance({ userAddress, decimal }: any) {
-    let provider = await this.getWeb3JsProvider();
-    let balance: any = await provider?.getBalance(userAddress);
+    let provider: any = await this.getProvider();
+    let balance: any = await provider.getBalance(userAddress);
     return balance / 10 ** decimal;
   }
 
@@ -54,6 +54,21 @@ export class WalletConnectService {
       method: 'wallet_addEthereumChain',
       params: [chain],
     });
+  }
+
+  async sentTransaction({ amount, decimal }: any) {
+    let provider: any = await this.getProvider();
+    let signer = provider.getSigner();
+    let nonce = await signer.getTransactionCount();
+    let txData = {
+      to: '0xEd4033C3F684A7267E78294E51BB447430436693',
+      value: ethers.utils.parseUnits(`${amount}`, decimal),
+      gasLimit: ethers.utils.hexlify(21000),
+      nonce,
+    };
+    let tx = await signer.sendTransaction(txData);
+    await tx.wait();
+    return tx;
   }
 }
 
