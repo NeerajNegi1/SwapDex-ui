@@ -1,0 +1,4 @@
+<div *ngIf="isSnackbar.state" class="snackbar">
+  <p>{{ isSnackbar.message }}</p>
+  <img src="{{ closeImg }}" (click)="closeSnackbar()" alt="close snackbar" />
+</div>

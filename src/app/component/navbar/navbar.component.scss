@@ -8,6 +8,8 @@ nav {
   box-shadow: transparent 0px 0px 0px 1px;
   transition: background-position 0.1s ease 0s, box-shadow 0.1s ease 0s;
   background-blend-mode: hard-light;
+  position: fixed;
+  background: rgba(255, 254, 254, 0.819);
 
   .outer_container {
     display: flex;
@@ -16,26 +18,134 @@ nav {
     width: 100%;
     .logo {
       cursor: pointer;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    .page_title {
+      position: absolute;
+      left: 44%;
     }
     .wallet_data {
       display: flex;
+      align-items: center;
+      position: relative;
 
       .blockchain_network {
         align-items: center;
         background-color: rgb(255, 255, 255);
         border: 2px solid rgb(255, 255, 255);
-        border-radius: 16px;
+        border-radius: 14px;
         color: rgb(0, 0, 0);
         cursor: pointer;
         display: flex;
         font-weight: 500;
         justify-content: space-between;
         padding: 6px 8px;
-
+        width: auto;
         img {
           height: 16px;
           width: 16px;
+          // margin: 0px 6px;
+          margin-right: 6px;
         }
+      }
+
+      .user_data {
+        margin-left: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: rgb(255, 255, 255);
+        border-radius: 16px;
+        white-space: nowrap;
+        width: auto;
+        height: 40px;
+      }
+      .connect_wallet_btn {
+        margin-left: 1rem;
+        font-weight: 500;
+        background-color: rgb(253, 234, 241);
+        border: 1px solid rgb(253, 234, 241);
+        color: rgb(213, 0, 102);
+        width: 150px;
+        height: 40px;
+        padding: 0.5rem;
+        border-radius: 14px;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+      .connect_wallet_btn:hover {
+        border: 1px solid rgb(241, 201, 218);
+        color: rgb(188, 0, 90);
+        background-color: rgb(253, 234, 241);
+      }
+      .user_balance {
+        box-sizing: border-box;
+        margin: 0px;
+        min-width: 0px;
+        padding-left: 0.75rem;
+        padding-right: 0.5rem;
+        font-weight: 500;
+      }
+      .address {
+        display: flex;
+        flex-flow: row nowrap;
+        -webkit-box-align: center;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 14px;
+        cursor: pointer;
+        user-select: none;
+        height: 36px;
+        margin-right: 2px;
+        margin-left: 1px;
+        background-color: rgb(247, 248, 250);
+        border: 1px solid rgb(247, 248, 250);
+        color: rgb(0, 0, 0);
+        font-weight: 500;
+      }
+      .navbar_toggle_network {
+        position: absolute;
+        z-index: 1;
+        background-color: white;
+        top: 150%;
+        width: 270px;
+        height: 270px;
+        border-radius: 10%;
+        overflow-y: scroll;
+
+        img {
+          width: 30px;
+          height: 30px;
+        }
+        ul {
+          list-style: none;
+          padding: 0px;
+          margin: 0px;
+        }
+        li {
+          display: flex;
+          align-items: center;
+          padding: 1rem;
+          cursor: pointer;
+        }
+        .selectedNetwork {
+          background-color: rgb(247, 248, 250);
+        }
+        li:hover {
+          background-color: rgb(247, 248, 250);
+        }
+        p {
+          font-size: larger;
+          margin-left: 0.5rem;
+          width: 100%;
+        }
+      }
+      .navbar_toggle_network::-webkit-scrollbar {
+        width: 0;
       }
     }
   }

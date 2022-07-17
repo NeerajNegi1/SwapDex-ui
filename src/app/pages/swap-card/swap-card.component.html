@@ -1,0 +1,120 @@
+<app-crypto-coins-modal></app-crypto-coins-modal>
+<div class="swap_card_outer">
+  <div class="swap_card">
+    <p class="swap_card_title">Swap</p>
+    <div class="swap_card_container">
+      <div appHoverBorder class="token_1_input">
+        <div class="token_1_input_container">
+          <input
+            type="number"
+            pattern="[0-9]*"
+            inputmode="numeric"
+            placeholder="0.0"
+            min="0"
+            [(ngModel)]="sellTokenValue"
+            (ngModelChange)="sellTokenValueChangeHandler()"
+          />
+          <div
+            *ngIf="sellCoin.state"
+            (click)="toggleModelHandler('SellToken')"
+            class="change_coin_btn"
+          >
+            <img
+              class="token_logo"
+              src="{{ sellCoin?.data?.defaultCoinDetails?.image }}"
+              alt="crypto icon"
+            />
+            <p>{{ sellCoin?.data?.nativeCurrency?.symbol }}</p>
+            <img class="dropdown" src="{{ dropdownBlack }}" alt="dropdown" />
+          </div>
+          <div
+            *ngIf="!sellCoin.state"
+            (click)="toggleModelHandler('SellToken')"
+            class="change_coin_btn select_token select_token_1"
+          >
+            <p>Select a token</p>
+            <img
+              class="dropdown"
+              src="{{ dropdownWhite }}"
+              alt="white dropdown"
+            />
+          </div>
+        </div>
+        <!-- <p class="user_balance">Balance: 0</p> -->
+      </div>
+      <img
+        (click)="swapCoinHandler()"
+        class="swap_token_arrow"
+        src="{{ swapIcon }}"
+        alt="swap icon"
+      />
+      <div appHoverBorder class="token_1_input token_2_input">
+        <div class="token_1_input_container">
+          <input
+            type="number"
+            pattern="[0-9]*"
+            inputmode="numeric"
+            placeholder="0.0"
+            min="0"
+            value="{{ buyTokenValue }}"
+            [disabled]="true"
+          />
+          <div
+            *ngIf="buyCoin.state"
+            (click)="toggleModelHandler('BuyToken')"
+            class="change_coin_btn"
+          >
+            <img
+              class="token_logo"
+              src="{{ buyCoin?.data?.defaultCoinDetails?.image }}"
+              alt="crypto icon"
+            />
+            <p>{{ buyCoin?.data?.nativeCurrency?.symbol }}</p>
+            <img class="dropdown" src="{{ dropdownBlack }}" alt="dropdown" />
+          </div>
+          <div
+            *ngIf="!buyCoin.state"
+            (click)="toggleModelHandler('BuyToken')"
+            class="change_coin_btn select_token"
+          >
+            <p>Select a token</p>
+            <img
+              class="dropdown"
+              src="{{ dropdownWhite }}"
+              alt="white dropdown"
+            />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="quotationData.state" class="crypto_info">
+        <img src="{{ infoIcon }}" alt="info" />
+        <div class="quotation_data">
+          <p #timerElement>
+            1 {{ sellCoin?.data?.nativeCurrency?.symbol }} =
+            {{ quotationData?.data?.priceForOneUnitOfBuyToken }}
+            {{ buyCoin?.data?.nativeCurrency?.symbol }}
+          </p>
+          <p *ngIf="timer < 16">{{ timer }} <span>s</span></p>
+        </div>
+      </div>
+      <p *ngIf="showerror.state" class="error_msg">{{ showerror.message }}</p>
+      <div
+        *ngIf="!isSwapStarted"
+        (click)="swapCryptoHandler()"
+        class="swapdex_btn"
+      >
+        <app-loader *ngIf="connectWalletNavLoader"></app-loader>
+        <p *ngIf="!connectWalletNavLoader">
+          {{ isWalletConnected ? "Swap Crypto" : "Connect Wallet" }}
+        </p>
+      </div>
+      <div
+        *ngIf="isSwapStarted"
+        (click)="swapCryptoHandler()"
+        class="swapdex_btn"
+      >
+        <app-loader></app-loader>
+      </div>
+    </div>
+  </div>
+</div>
